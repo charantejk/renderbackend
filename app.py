@@ -7,15 +7,22 @@ from decimal import Decimal, InvalidOperation
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
-load_dotenv()
-
 app = Flask(__name__)
 CORS(app)
+  # Hardcoded database configurations
+DATABASE_NAME = 'neondb'
+DATABASE_USER = 'neondb_owner'
+DATABASE_PASSWORD = 'npg_2PGviD7JjfHy'
+DATABASE_HOST = 'ep-dry-water-a1gg4pkk-pooler.ap-southeast-1.aws.neon.tech'
+DATABASE_PORT = '5432'
 
-# Use environment variables for configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+# Construct the database URL
+DATABASE_URL = f'postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}'
+
+# Use hardcoded configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'your_secret_key'
 
 db = SQLAlchemy(app)
 
